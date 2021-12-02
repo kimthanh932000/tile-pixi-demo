@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.6/pixi.min.js"></script>
+<!-- <script src="https://unpkg.com/pixi-tile-utilities/dist/tile-utilities.js"></script> -->
+<script type="module" src="../node_modules/pixi-tile-utilities/dist/tile-utilities.js"></script>
+
+<script>
+	let app
+	const pixi = PIXI
+	let tu = new TileUtilities(pixi)
+
+	window.onload = function() {
+		app = new pixi.Application({
+			width: 800,
+			height: 600,
+			backgroundColor: 0xAAAAAA
+		})
+		document.body.appendChild(app.view)
+
+		const showProgress = (e) => {
+			console.log(e.progress)
+		}
+
+		const reportError = (e) => {
+			console.log('ERROR: ', e)
+		}
+
+		const doneLoading = (e) => {
+			console.log('DONE LOADING!', app.loader.resources)
+			// let world = tu.makeTiledWorld('house', tileSet)
+			// console.log(world)
+			// player = PIXI.Sprite.from(app.loader.resources.house.texture)
+			// player.x = app.view.width / 2
+			// player.y = app.view.height / 2
+			// player.anchor.set(0.5);
+			// app.stage.addChild(player)
+		}
+
+		// app.loader.baseUrl = './assets/map'
+		// app.loader.add('house', tiledMap)
+		app.loader.add('house', './assets/map/Isometricmap.json')
+
+		app.loader.onProgress.add(showProgress)
+		app.loader.onComplete.add(doneLoading)
+		app.loader.onError.add(reportError)
+
+		app.loader.load()
+	}
+
+</script>
+</body>
+</html>
